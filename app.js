@@ -2,14 +2,15 @@ const express = require("express")
 const morgan = require("morgan")
 const mongoose = require("mongoose")
 const Blog = require("./models/blog")
+require("dotenv").config()
 
 const app = express()
 
 // Connect to MongoDB
-const dbURI = "mongodb+srv://root:Test-1234@cluster0.s6buayy.mongodb.net/nodetuts?appName=Cluster0"
+const dbURI = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_CLUSTER}/${process.env.DB_NAME}?appName=${process.env.DB_APP_NAME}`
 mongoose.connect(dbURI)
-    .then((result) => app.listen(3000, "localhost", () => {
-        console.log("Server is running on http://localhost:3000")
+    .then((result) => app.listen(process.env.PORT || 3000, "localhost", () => {
+        console.log(`Server is running on http://localhost:${process.env.PORT || 3000}`)
     }))
     .catch((err) => console.log(err))
 
